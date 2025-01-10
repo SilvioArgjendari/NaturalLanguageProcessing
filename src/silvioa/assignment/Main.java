@@ -15,7 +15,13 @@ import java.util.stream.IntStream;
 
 public class Main {
   public static void main(String[] args) {
-    String absolutePath = (args.length == 0) ? "languages" : args[0];
+    String path = (args.length == 0) ? "languages" : args[0];
+    start(path);
+
+  }
+
+  private static void start(String absolutePath) {
+//    String absolutePath = (args.length == 0) ? "languages" : args[0];
     List<Path> folderList = listOfFolders(absolutePath);
     int n = userInput();
 
@@ -33,7 +39,6 @@ public class Main {
 
     printAllSimilarities(similarities);
     mostSimilar(similarities);
-
   }
 
   private static int userInput() {
@@ -76,7 +81,8 @@ public class Main {
 
   private static List<String> readFile(Path path) {
     try {
-      return Files.lines(path).collect(Collectors.toList());
+      return Files.lines(path).
+          collect(Collectors.toList());
     } catch (IOException e) {
       e.printStackTrace();
       throw new IllegalArgumentException("Cannot read lines from " + path, e);
@@ -123,8 +129,7 @@ public class Main {
         .collect(Collectors.toList());
   }
 
-  private static ConcurrentMap<String, Double> getSimilarities(ConcurrentMap<String, LanguageModel> models,
-                                                               LanguageModel mystery) {
+  private static ConcurrentMap<String, Double> getSimilarities(ConcurrentMap<String, LanguageModel> models, LanguageModel mystery) {
     return models.entrySet().parallelStream()
         .collect(Collectors.toConcurrentMap(Map.Entry::getKey,
             entry -> entry.getValue().calculateSimilarity(mystery)));

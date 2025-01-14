@@ -10,9 +10,9 @@ import java.util.stream.Stream;
 public class TextProcessor {
 
   /**
-   * Reads the entire file content into a string.
+   * Returns the entire file content into a string.
    * @param filePath absolute path
-   * @return File content
+   * @return a list of strings, each string is a line from the file.
    */
   public List<String> readFile(Path filePath) {
     try (Stream<String> lines = Files.lines(filePath)) {
@@ -24,10 +24,12 @@ public class TextProcessor {
 
   /**
    * Standardizes text
+   * @return a text with words separated by 1 single space.
    */
   public String preprocessText(String text) {
     return text.toLowerCase()
-        .replaceAll("[^a-z\\s]", " ")  // Replace punctuation with whitespace
+//        .replaceAll("[^a-z\\s]", " ")  // Replace punctuation with whitespace. BUGGY
+        .replaceAll("\\p{P}", " ")   // Remove non-word characters
         .replaceAll("\\s+", " ")       // Normalize whitespace
         .trim();
   }
@@ -37,7 +39,7 @@ public class TextProcessor {
    * @param folderPath
    * @return List of Paths of all .txt files in the folder
    */
-  public List<Path> getTextFiles(Path folderPath) {
+  public List<Path> getTextFilePaths(Path folderPath) {
     try (Stream<Path> files = Files.walk(folderPath)) {
       return files
           .filter(Files::isRegularFile)

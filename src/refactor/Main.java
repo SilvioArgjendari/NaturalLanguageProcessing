@@ -5,13 +5,6 @@ import java.util.List;
 
 public class Main {
   public static void main(String[] args) {
-    /**
-     * TODO
-     * Read the files
-     * Determine the languages and build the models
-     * Construct the histogram for each model
-     *
-     */
 
     TextProcessor processor = new TextProcessor();
 

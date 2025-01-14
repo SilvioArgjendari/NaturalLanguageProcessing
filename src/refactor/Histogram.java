@@ -12,6 +12,7 @@ public class Histogram {
     this.frequencies = new ConcurrentHashMap<>();
   }
 
+  @Deprecated
   public void merge(Histogram other) {
     other.frequencies.forEach((k, v) ->
         frequencies.merge(k, v, Integer::sum));
@@ -33,12 +34,16 @@ public class Histogram {
     return frequencies.keySet();
   }
 
+  // Move to Vector Math
+  @Deprecated
   public double calculateDotProduct(Histogram other) {
     return frequencies.entrySet().stream()
         .mapToDouble(entry -> entry.getValue() * other.frequencies.getOrDefault(entry.getKey(), 0))
         .sum();
   }
 
+  // Move to VectorMath
+  @Deprecated
   public double calculateNorm() {
     return Math.sqrt(frequencies.values().stream()
         .mapToDouble(v -> v * v)
